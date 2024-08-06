@@ -1,0 +1,1800 @@
+{
+	"info": {
+		"_postman_id": "03fea0bf-c924-4108-91a2-910b3a0781bd",
+		"name": "RevindEntities_Tests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "POST Create New Location",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let response = pm.response.json();",
+							"let locationId = response.locations._id;",
+							"pm.environment.set(\"location_id\", locationId);",
+							"pm.test('should create a new location',function(){",
+							"    pm.response.to.have.status(201)",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\":\"Akademibokhandeln\",\n    \"description\":\"Akademibokhandeln är Sveriges marknadsledande bokhandelskedja med över 100 butiker spridda över hela landet. Koncernen omsatte under 2018 ca. 1,8 miljarder kronor och antalet medarbetare uppgick till 476. Akademibokhandeln erbjuder ett brett sortiment av böcker, pappers- och kontorsvaror.\",\n    \"country\":\"Sweden\",\n    \"city\":\"Gothenburg\",\n    \"street\":\"Kungsgatan\",\n    \"zipcode\":\"423628\"\n\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/locations/",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"locations",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST Create Item",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let response = pm.response.json();",
+							"let itemId = response.items._id;",
+							"pm.environment.set(\"item_Id\", itemId);",
+							"pm.test('should create a new item',function(){",
+							"    pm.response.to.have.status(201)",
+							"})",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\":\"Lord of the Rings\",\n    \"description\":\"The Lord of the Rings is an epic[1] high-fantasy novel[a] by English author and scholar J. R. R. Tolkien. Set in Middle-earth, a place like Earth at some distant time in the past, the story began as a sequel to Tolkien's 1937 children's book The Hobbit, but eventually developed into a much larger work. Written in stages between 1937 and 1949\",\n    \"price\":50,\n    \"location\":\"{{location_id}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/items",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"items"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Return all Items",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('should return all items',function(){",
+							"    pm.response.to.have.status(200)",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/items",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"items"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Get Specific Item Using Id",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('should return an item',function(){",
+							"    pm.response.to.have.status(200)",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/items/{{item_Id}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"items",
+						"{{item_Id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PATCH Change Title Of Specific Item Copy",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('should patch item',function(){",
+							"    pm.response.to.have.status(200)",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\":\"Lord of the Rings\",\n    \"description\":\"The Lord of the Rings is an epic[1] high-fantasy novel[a] by English author and scholar J. R. R. Tolkien. Set in Middle-earth, a place like Earth at some distant time in the past, the story began as a sequel to Tolkien's 1937 children's book The Hobbit, but eventually developed into a much larger work. Written in stages between 1937 and 1949\",\n    \"price\":500,\n    \"location\":\"{{location_id}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/items/{{item_Id}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"items",
+						"{{item_Id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT Edit Entire Item Details",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('should edit an item',function(){",
+							"    pm.response.to.have.status(200)",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\":\"Lord of the Rings\",\n    \"description\":\"The Lord of the Rings is an epic[1] high-fantasy novel[a] by English author and scholar J. R. R. Tolkien. Set in Middle-earth, a place like Earth at some distant time in the past, the story began as a sequel to Tolkien's 1937 children's book The Hobbit, but eventually developed into a much larger work. Written in stages between 1937 and 1949\",\n    \"price\":100,\n    \"location\":\"{{location_id}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/items/{{item_Id}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"items",
+						"{{item_Id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE Delete Specific Item Using Id Copy",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('should delete the item',function(){",
+							"    pm.response.to.have.status(200)",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/items/{{item_Id}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"items",
+						"{{item_Id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete All Items",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('should delete all items',function(){",
+							"    pm.response.to.have.status(200)",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/items",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"items"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Return all Locations",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('should return all locations',function(){",
+							"    pm.response.to.have.status(200)",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/locations/",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"locations",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Get Locations with Specific Id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('should return a location',function(){",
+							"    pm.response.to.have.status(200)",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/locations/{{location_id}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"locations",
+						"{{location_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PATCH Change Specific detail of Location Using Id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('should patch the location',function(){",
+							"    pm.response.to.have.status(200)",
+							"})",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\":\"Akademibokhandeln\",\n    \"description\":\"Akademibokhandeln är Sveriges marknadsledande bokhandelskedja med över 100 butiker spridda över hela landet. Koncernen omsatte under 2018 ca. 1,8 miljarder kronor och antalet medarbetare uppgick till 476. Akademibokhandeln erbjuder ett brett sortiment av böcker, pappers- och kontorsvaror.\",\n    \"country\":\"Sweden\",\n    \"city\":\"Gothenburg\",\n    \"street\":\"Kungsgatan\",\n    \"zipcode\":\"278358\"\n\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/locations/{{location_id}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"locations",
+						"{{location_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Put Change A Specific Location",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('should edit the entire location',function(){",
+							"    pm.response.to.have.status(200)",
+							"})",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\":\"Akademibokhandeln\",\n    \"description\":\"Akademibokhandeln är Sveriges marknadsledande bokhandelskedja med över 100 butiker spridda över hela landet. Koncernen omsatte under 2018 ca. 1,8 miljarder kronor och antalet medarbetare uppgick till 476. Akademibokhandeln erbjuder ett brett sortiment av böcker, pappers- och kontorsvaror.\",\n    \"country\":\"Germany\",\n    \"city\":\"Berlin\",\n    \"street\":\"Kungsgatan\",\n    \"zipcode\":\"11392\"\n\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/locations/{{location_id}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"locations",
+						"{{location_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE Delete Specific Location Using Id",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('should delete a location',function(){",
+							"    pm.response.to.have.status(200)",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/locations/{{location_id}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"locations",
+						"{{location_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE Delete All Locations",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('should delete all location',function(){",
+							"    pm.response.to.have.status(200)",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/locations",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"locations"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST Post User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let response = pm.response.json();",
+							"let userId = response._id;",
+							"pm.environment.set(\"user_Id\", userId);",
+							"pm.test('should post user',function(){",
+							"    pm.response.to.have.status(201)",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\":\"uname6\",\n    \"email\":\"email6\",\n    \"password\":\"pass6\",\n    \"userType\":\"User\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/users",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Get All Users",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('should return all users',function(){",
+							"    pm.response.to.have.status(200)",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": []
+				},
+				"url": {
+					"raw": "{{host}}/api/users",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Get user with specific id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('should return user',function(){",
+							"    pm.response.to.have.status(200)",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/users/{{user_Id}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"{{user_Id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PATCH Patch User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('should patch user',function(){",
+							"    pm.response.to.have.status(200)",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\":\"uname7\",\n    \"email\":\"email6\",\n    \"password\":\"pass6\"\n\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/users/{{user_Id}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"{{user_Id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT Put A User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('should put user',function(){",
+							"    pm.response.to.have.status(200)",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\":\"uname8\",\n    \"email\":\"email8\",\n    \"password\":\"pass8\"\n\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/users/{{user_Id}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"{{user_Id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE Delete Specific User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('should delete user',function(){",
+							"    pm.response.to.have.status(200)",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/users/{{user_Id}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"{{user_Id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE Delete All Users",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('should delete all users',function(){",
+							"    pm.response.to.have.status(200)",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/users",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST Post Review",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let response = pm.response.json();",
+							"let reviewId = response._id;",
+							"pm.environment.set(\"review_Id\", reviewId);",
+							"pm.test('should post review',function(){",
+							"    pm.response.to.have.status(201)",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "  {\n    \"title\": \"Wonderful\",\n    \"description\":\"Great product\",\n    \"rating\":4\n  }\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/reviews",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"reviews"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post a review from an item",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let response = pm.response.json();",
+							"let reviewId = response._id;",
+							"pm.environment.set(\"review_Id\", reviewId);",
+							"pm.test('should post review',function(){",
+							"    pm.response.to.have.status(201)",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "  {\n    \"title\": \"Amazing\",\n    \"description\":\"Great product\",\n    \"rating\":3\n  }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/items/{{item_Id}}/reviews",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"items",
+						"{{item_Id}}",
+						"reviews"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Get All Reviews",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('should return all reviews',function(){",
+							"    pm.response.to.have.status(200)",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/reviews",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"reviews"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Get Review with specific id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('should return review',function(){",
+							"    pm.response.to.have.status(200)",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/reviews/{{review_Id}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"reviews",
+						"{{review_Id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PATCH Patch Review",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('should patch review',function(){",
+							"    pm.response.to.have.status(200)",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "  {\n    \"title\": \"Wonderful\",\n    \"description\":\"Woooow what a great product\",\n    \"rating\":4\n  }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/reviews/{{review_Id}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"reviews",
+						"{{review_Id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT Put Review",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('should put review',function(){",
+							"    pm.response.to.have.status(200)",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "  {\n    \"title\": \"Good\",\n    \"description\":\"Useful product\",\n    \"rating\":3\n  }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/reviews/{{review_Id}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"reviews",
+						"{{review_Id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE Delete Specific Review",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('should delete review',function(){",
+							"    pm.response.to.have.status(200)",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/reviews/{{review_Id}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"reviews",
+						"{{review_Id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE Delete All Reviews",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('should delete all reviews',function(){",
+							"    pm.response.to.have.status(200)",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/reviews",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"reviews"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST Post Suggestion",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let response = pm.response.json();",
+							"let suggestionId = response._id;",
+							"pm.environment.set(\"suggestion_Id\", suggestionId);",
+							"pm.test('should post suggestion',function(){",
+							"    pm.response.to.have.status(201)",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n  {\n    \"userId\": \"613a62498e8b9604489223b7\",\n    \"username\": \"somename\",\n    \"email\": \"test@test.com\",\n    \"subject\": \"subject101\",\n    \"feedback\": \"feedback\"\n  }\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/suggestions",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"suggestions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Get All Suggestions",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('should return all suggestion',function(){",
+							"    pm.response.to.have.status(200)",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/suggestions",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"suggestions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Get Suggestion with specific id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('should return suggestion',function(){",
+							"    pm.response.to.have.status(200)",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/suggestions/{{suggestion_Id}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"suggestions",
+						"{{suggestion_Id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PATCH Patch Suggestion",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('should patch suggestion',function(){",
+							"    pm.response.to.have.status(200)",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n  {\n    \"userId\": \"613a62498e8b9604489223b7\",\n    \"username\": \"somename\",\n    \"email\": \"test@test.com\",\n    \"subject\": \"subject101\",\n    \"feedback\": \"feedback101001\"\n  }\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/suggestions/{{suggestion_Id}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"suggestions",
+						"{{suggestion_Id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT Put Suggestion",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('should put suggestion',function(){",
+							"    pm.response.to.have.status(200)",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n  {\n    \"userId\": \"613a62498e8b9604489223b7\",\n    \"username\": \"somename\",\n    \"email\": \"email@email.com\",\n    \"subject\": \"subject101\",\n    \"feedback\": \"feedback101001\"\n  }\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/suggestions/{{suggestion_Id}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"suggestions",
+						"{{suggestion_Id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE Delete Specific Suggestion",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('should delete suggestion',function(){",
+							"    pm.response.to.have.status(200)",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/suggestions/{{suggestion_Id}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"suggestions",
+						"{{suggestion_Id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE Delete All Suggestions",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('should delete all suggestions',function(){",
+							"    pm.response.to.have.status(200)",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{host}}/api/suggestions",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"suggestions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST Post User Admin",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let response = pm.response.json();",
+							"let userId = response._id;",
+							"pm.environment.set(\"user_Id\", userId);",
+							"pm.test('should post user',function(){",
+							"    pm.response.to.have.status(201)",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\":\"Admin\",\n    \"email\":\"Admin@email.com\",\n    \"password\":\"Admin\",\n    \"userType\":\"Admin\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/users",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST Post User Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let response = pm.response.json();",
+							"let userId = response._id;",
+							"pm.environment.set(\"user_Id\", userId);",
+							"pm.test('should post user',function(){",
+							"    pm.response.to.have.status(201)",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\":\"Johan\",\n    \"email\":\"Johan@email.com\",\n    \"password\":\"Johan\",\n    \"userType\": \"User\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/users",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST Create New Location Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let response = pm.response.json();",
+							"let locationId = response.locations._id;",
+							"pm.environment.set(\"location_id\", locationId);",
+							"pm.test('should create a new location',function(){",
+							"    pm.response.to.have.status(201)",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\":\"Akademibokhandeln\",\n    \"description\":\"Akademibokhandeln är Sveriges marknadsledande bokhandelskedja med över 100 butiker spridda över hela landet. Koncernen omsatte under 2018 ca. 1,8 miljarder kronor och antalet medarbetare uppgick till 476. Akademibokhandeln erbjuder ett brett sortiment av böcker, pappers- och kontorsvaror.\",\n    \"country\":\"Sweden\",\n    \"city\":\"Gothenburg\",\n    \"street\":\"Kungsgatan\",\n    \"zipcode\":\"423628\"\n\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/locations/",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"locations",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST Create Item Copy",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let response = pm.response.json();",
+							"let itemId = response.items._id;",
+							"pm.environment.set(\"item_Id\", itemId);",
+							"pm.test('should create a new item',function(){",
+							"    pm.response.to.have.status(201)",
+							"})",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\":\"Lord of the Rings\",\n    \"description\":\"The Lord of the Rings is an epic[1] high-fantasy novel[a] by English author and scholar J. R. R. Tolkien. Set in Middle-earth, a place like Earth at some distant time in the past, the story began as a sequel to Tolkien's 1937 children's book The Hobbit, but eventually developed into a much larger work. Written in stages between 1937 and 1949\",\n    \"price\":50,\n    \"location\":\"{{location_id}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/items",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"items"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST Create New Location Copy 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let response = pm.response.json();",
+							"let locationId = response.locations._id;",
+							"pm.environment.set(\"location_id\", locationId);",
+							"pm.test('should create a new location',function(){",
+							"    pm.response.to.have.status(201)",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\":\"Elgiganten\",\n    \"description\":\"Elgiganten is a consumer electronics retailer operating in Denmark and Sweden, where its parent Elkjøp operates in Norway and have subsidiaries like Gigantti, Elko and Elding. There are Elgiganten A/S and Elgiganten AB both directly operated under Elkjøp Nordic AS.\",\n    \"country\":\"Sweden\",\n    \"city\":\"Gothenburg\",\n    \"street\":\"Stockholmsgatan 32\",\n    \"zipcode\":\"12312\"\n\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/locations/",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"locations",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST Create Item Copy",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let response = pm.response.json();",
+							"let itemId = response.items._id;",
+							"pm.environment.set(\"item_Id\", itemId);",
+							"pm.test('should create a new item',function(){",
+							"    pm.response.to.have.status(201)",
+							"})",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\":\"Playstation 5\",\n    \"description\":\"The PlayStation 5 (PS5) is a home video game console developed by Sony Interactive Entertainment. Announced in 2019 as the successor to the PlayStation 4, the PS5 was released on November 12, 2020, in Australia, Japan, New Zealand, North America, and South Korea, with worldwide release following a week later. The PS5 is part of the ninth generation of video game consoles, along with Microsoft's Xbox Series X and Series S consoles, which were released in the same month. \",\n    \"price\":899,\n    \"location\":\"{{location_id}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/items",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"items"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST Post Review Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let response = pm.response.json();",
+							"let reviewId = response._id;",
+							"pm.environment.set(\"review_Id\", reviewId);",
+							"pm.test('should post review',function(){",
+							"    pm.response.to.have.status(201)",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "  {\n    \"title\": \"Wonderful\",\n    \"description\":\"Great product\",\n    \"rating\":4,\n    \"product\":\"{{item_Id}}\",\n    \"owner\":\"{{user_Id}}\"\n  }\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/reviews",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"reviews"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST Post Review User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let response = pm.response.json();",
+							"let reviewId = response._id;",
+							"pm.environment.set(\"review_Id\", reviewId);",
+							"pm.test('should post review',function(){",
+							"    pm.response.to.have.status(201)",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "  {\n    \"reviewId\": \"{{review_Id}}\"\n  }\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/users/{{user_Id}}/reviews",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"{{user_Id}}",
+						"reviews"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST Post Suggestion Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let response = pm.response.json();",
+							"let suggestionId = response._id;",
+							"pm.environment.set(\"suggestion_Id\", suggestionId);",
+							"pm.test('should post suggestion',function(){",
+							"    pm.response.to.have.status(201)",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n  {\n    \"userId\": \"613a62498e8b9604489223b7\",\n    \"username\": \"somename\",\n    \"email\": \"test@test.com\",\n    \"subject\": \"Dark mode\",\n    \"feedback\": \"Please implement dark mode\"\n  }\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/suggestions",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"suggestions"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
